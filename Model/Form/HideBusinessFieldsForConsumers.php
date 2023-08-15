@@ -27,7 +27,7 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
         // Is triggered when the customer type is changed
         $form->registerModificationListener(
             'hideBusinessFieldsForConsumers',
-            sprintf('form:shipping:%s:updated', AddCustomerTypeRadioButtons::FIELD_NAME),
+            sprintf('form:%s:updated', AddCustomerTypeRadioButtons::FIELD_NAME),
             [$this, 'applyHideBusinessFieldsForConsumers']
         );
 

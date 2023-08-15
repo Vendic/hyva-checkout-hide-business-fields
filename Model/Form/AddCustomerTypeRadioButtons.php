@@ -31,7 +31,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
         $form->registerModificationListener(
             'saveSelect',
-            sprintf('form:shipping:%s:updated', self::FIELD_NAME),
+            sprintf('form:%s:updated', self::FIELD_NAME),
             [$this, 'saveSelectField']
         );
 
@@ -54,7 +54,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
     {
         $select = $form->getField(self::FIELD_NAME);
         if ($select->getValue() !== $select->getPreviousValue()) {
-            $this->checkoutSession->setData(self::FIELD_NAME, $select->getValue());
+            $this->setCustomerTypeInSession($form, $select->getValue());
         }
     }
 
@@ -77,10 +77,20 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
             ]
         ]);
 
-        if ($this->checkoutSession->getData(self::FIELD_NAME) !== null) {
+        if ($this->getCustomerTypeFromSession($form) !== null) {
             $select->setValue($this->checkoutSession->getData(self::FIELD_NAME));
         }
 
         $form->addField($select);
+    }
+
+    private function getCustomerTypeFromSession(EntityFormInterface $form) : ?string
+    {
+        return $this->checkoutSession->getData($form->getNamespace() . '_' . self::FIELD_NAME);
+    }
+
+    private function setCustomerTypeInSession(EntityFormInterface $form, string $value) : void
+    {
+        $this->checkoutSession->setData($form->getNamespace() . '_' . self::FIELD_NAME, $value);
     }
 }

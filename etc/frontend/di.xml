@@ -14,6 +14,19 @@
         </arguments>
     </type>
 
+    <type name="Hyva\Checkout\Model\Form\EntityForm\EavAttributeBillingAddressForm">
+        <arguments>
+            <argument name="entityFormModifiers" xsi:type="array">
+                <item name="customer_type" xsi:type="object" sortOrder="100">
+                    Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons
+                </item>
+                <item name="hide_business_fields_for_consumers" xsi:type="object" sortOrder="200">
+                    Vendic\HyvaCheckoutHideBusinessFields\Model\Form\HideBusinessFieldsForConsumers
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Vendic\HyvaCheckoutHideBusinessFields\Model\Form\HideBusinessFieldsForConsumers">
         <arguments>
             <argument name="businessFields" xsi:type="array">
