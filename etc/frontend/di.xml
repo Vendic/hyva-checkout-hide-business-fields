@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Hyva\Checkout\Model\Form\EntityForm\EavAttributeShippingAddressForm">
+        <arguments>
+            <argument name="entityFormModifiers" xsi:type="array">
+                <item name="customer_type" xsi:type="object" sortOrder="100">
+                    Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons
+                </item>
+                <item name="hide_business_fields_for_consumers" xsi:type="object" sortOrder="200">
+                    Vendic\HyvaCheckoutHideBusinessFields\Model\Form\HideBusinessFieldsForConsumers
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Vendic\HyvaCheckoutHideBusinessFields\Model\Form\HideBusinessFieldsForConsumers">
+        <arguments>
+            <argument name="businessFields" xsi:type="array">
+                <item name="company" xsi:type="string">company</item>
+                <item name="vat_id" xsi:type="string">vat_id</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

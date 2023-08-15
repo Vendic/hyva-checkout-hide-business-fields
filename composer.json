@@ -1,0 +1,17 @@
+{
+    "name": "vendic/hyva-checkout-hide-business-fields",
+    "description": "Hyvä checkout module to hide business fields for consumers",
+    "require": {
+        "php": "~8.1|~8.2",
+        "hyva-themes/magento2-hyva-checkout": "^1.1.0"
+    },
+    "type": "magento2-module",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vendic\\HyvaCheckoutHideBusinessFields\\": ""
+        }
+    }
+}
