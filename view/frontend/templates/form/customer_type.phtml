@@ -21,10 +21,13 @@ use Magento\Framework\View\Element\Template;
 use Magewirephp\Magewire\Component\Form as MagewireFormComponent;
 
 $element = $block->getData('element');
+$showLabel = $block->getData('show_label') ?: false;
 $attributes = $element->getAttributes();
 ?>
 <div class="block font-medium text-gray-700 <?= $element->isRequired() ? 'required' : 'not-required' ?>">
-    <?= /* @noEscape */ $element->getRenderer()->renderLabel($element) ?>
+    <?php if ($showLabel): ?>
+        <?= /* @noEscape */ $element->getRenderer()->renderLabel($element) ?>
+    <?php endif; ?>
     <?= /* @noEscape */ $element->getRenderer()->renderBefore($element) ?>
 
     <?php if ($element->hasRelatives()): ?>

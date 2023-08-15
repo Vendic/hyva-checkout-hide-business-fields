@@ -46,6 +46,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
     public function addWireModel(EntityFormInterface $form) : void
     {
+        /** @var Input $select */
         $select = $form->getField(self::FIELD_NAME);
         $select->setAttribute('wire:model', sprintf('address.%s', self::FIELD_NAME));
     }
@@ -60,6 +61,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
     public function addInitialSelectField(EntityFormInterface $form): void
     {
+        // The customer type will be shown before the email field.
         $emailFieldPosition = isset($form->getFields()['email']) ? $form->getFields()['email']->getPosition() : 1;
 
         /** @var Input $select */
@@ -69,9 +71,9 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
                 'is_auto_save' => false,
                 'label' => __('Customer Type')->render(),
                 'value' => self::TYPE_CONSUMER,
-                'position' => $emailFieldPosition + 1,
+                'position' => $emailFieldPosition - 1,
                 'options' => [
-                    ['label' => __('Consumer'), 'value' => self::TYPE_CONSUMER],
+                    ['label' => __('Private'), 'value' => self::TYPE_CONSUMER],
                     ['label' => __('Business'), 'value' => self::TYPE_BUSINESS],
                 ],
             ]
