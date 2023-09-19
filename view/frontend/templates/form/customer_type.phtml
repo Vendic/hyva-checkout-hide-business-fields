@@ -24,7 +24,7 @@ $element = $block->getData('element');
 $showLabel = $block->getData('show_label') ?: false;
 $attributes = $element->getAttributes();
 ?>
-<div class="block font-medium text-gray-700 <?= $element->isRequired() ? 'required' : 'not-required' ?>">
+<div class="block <?= $element->isRequired() ? 'required' : 'not-required' ?>">
     <?php if ($showLabel): ?>
         <?= /* @noEscape */ $element->getRenderer()->renderLabel($element) ?>
     <?php endif; ?>
@@ -34,12 +34,11 @@ $attributes = $element->getAttributes();
     <div class="space-y-2">
         <?php endif ?>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-wrap gap-2">
             <?php foreach ($element->getOptions() as $option): ?>
-
                 <div>
-                    <label class="items-center justify-between p-2 px-2 bg-white border rounded-lg cursor-pointer
-                                  <?= ($magewire->getAddress()['customer_type'] === $option['value']) ? 'border-blue-600 text-blue-600' : 'border-secondary text-secondary' ?>">
+                    <label class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold
+                                  <?= ($magewire->getAddress()['customer_type'] === $option['value']) ? 'border-blue-600 text-blue-600 checked' : 'border-secondary text-secondary' ?>">
                         <input type="radio"
                                class="hidden"
                                value="<?= $escaper->escapeHtml($option['value']) ?>"
@@ -47,10 +46,9 @@ $attributes = $element->getAttributes();
                                     <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
                                 <?php endif ?>
                         />
-                        <span class="text-sm font-medium"><?= $escaper->escapeHtml($option['label']) ?></span>
+                        <span><?= $escaper->escapeHtml($option['label']) ?></span>
                     </label>
                 </div>
-
             <?php endforeach; ?>
         </div>
 

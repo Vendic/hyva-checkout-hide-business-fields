@@ -81,7 +81,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
         ]);
 
         if ($this->getCustomerTypeFromSession($form) !== null) {
-            $select->setValue($this->checkoutSession->getData(self::FIELD_NAME));
+            $select->setValue($this->getCustomerTypeFromSession($form));
         }
 
         $form->addField($select);
