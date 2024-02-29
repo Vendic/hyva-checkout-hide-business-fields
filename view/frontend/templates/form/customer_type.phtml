@@ -19,10 +19,12 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Magewirephp\Magewire\Component\Form as MagewireFormComponent;
+use Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons;
 
 $element = $block->getData('element');
 $showLabel = $block->getData('show_label') ?: false;
 $attributes = $element->getAttributes();
+$customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type'] : AddCustomerTypeRadioButtons::TYPE_CONSUMER;
 ?>
 <div class="block <?= $element->isRequired() ? 'required' : 'not-required' ?>">
     <?php if ($showLabel): ?>
@@ -38,7 +40,7 @@ $attributes = $element->getAttributes();
             <?php foreach ($element->getOptions() as $option): ?>
                 <div>
                     <label class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold
-                                  <?= ($magewire->getAddress()['customer_type'] === $option['value']) ? 'border-blue-600 text-blue-600 checked' : 'border-secondary text-secondary' ?>">
+                                  <?= ($customerType === $option['value']) ? 'border-blue-600 text-blue-600 checked' : 'border-secondary text-secondary' ?>">
                         <input type="radio"
                                class="hidden"
                                value="<?= $escaper->escapeHtml($option['value']) ?>"
