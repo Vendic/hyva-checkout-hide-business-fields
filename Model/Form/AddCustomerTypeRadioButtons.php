@@ -62,9 +62,6 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
     public function addInitialSelectField(EntityFormInterface $form): void
     {
-        // The customer type will be shown before the email field.
-        $emailFieldPosition = isset($form->getFields()['email']) ? $form->getFields()['email']->getPosition() : 1;
-
         /** @var Input $select */
         $select = $form->createField(AddCustomerTypeRadioButtons::FIELD_NAME, 'select', [
             'data' => [
@@ -72,7 +69,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
                 'is_auto_save' => false,
                 'label' => __('Customer Type')->render(),
                 'value' => self::TYPE_CONSUMER,
-                'position' => $emailFieldPosition - 1,
+                'position' => 0,
                 'options' => [
                     ['label' => __('Private'), 'value' => self::TYPE_CONSUMER],
                     ['label' => __('Business'), 'value' => self::TYPE_BUSINESS],
