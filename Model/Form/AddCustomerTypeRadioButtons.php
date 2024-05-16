@@ -55,6 +55,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
     public function saveSelectField(EntityFormInterface $form): void
     {
         $select = $form->getField(self::FIELD_NAME);
+
         if ($select->getValue() !== $select->getPreviousValue()) {
             $this->setCustomerTypeInSession($form, $select->getValue());
         }
@@ -79,6 +80,8 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
         if ($this->getCustomerTypeFromSession($form) !== null) {
             $select->setValue($this->getCustomerTypeFromSession($form));
+            // Set previous value back to null so Magewire can do it's thing and populate it with the actual previous value
+            $select->setData(\Hyva\Checkout\Model\Form\EntityFieldInterface::PREVIOUS_VALUE, null);
         }
 
         $form->addField($select);
