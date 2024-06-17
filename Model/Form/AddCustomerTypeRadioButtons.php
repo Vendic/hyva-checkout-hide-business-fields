@@ -56,7 +56,9 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
     {
         $select = $form->getField(self::FIELD_NAME);
 
-        if ($select->getValue() !== $select->getPreviousValue()) {
+        // Let's not use magic method here, as it can potentially return the value with `getValue`
+        $previousValue = $select->getData('previous_value');
+        if ($select->getValue() !== $previousValue) {
             $this->setCustomerTypeInSession($form, $select->getValue());
         }
     }
