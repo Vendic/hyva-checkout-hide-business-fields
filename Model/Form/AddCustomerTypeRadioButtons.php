@@ -16,8 +16,14 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
     public const TYPE_CONSUMER = 'consumer';
     public const TYPE_BUSINESS = 'business';
 
+    private array $defaultCustomerTypeOptions = [
+        ['label' => 'Private', 'value' => self::TYPE_CONSUMER],
+        ['label' => 'Business', 'value' => self::TYPE_BUSINESS],
+    ];
+
     public function __construct(
-        private CheckoutSession $checkoutSession
+        private CheckoutSession $checkoutSession,
+        private array $customCustomerTypeOptions = []
     ) {
     }
 
@@ -65,6 +71,8 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
     public function addInitialSelectField(EntityFormInterface $form): void
     {
+        $customerTypeOptions = array_merge($this->defaultCustomerTypeOptions, $this->customCustomerTypeOptions);
+
         /** @var Input $select */
         $select = $form->createField(AddCustomerTypeRadioButtons::FIELD_NAME, 'select', [
             'data' => [
@@ -73,10 +81,7 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
                 'label' => __('Customer Type')->render(),
                 'value' => self::TYPE_CONSUMER,
                 'position' => 0,
-                'options' => [
-                    ['label' => __('Private'), 'value' => self::TYPE_CONSUMER],
-                    ['label' => __('Business'), 'value' => self::TYPE_BUSINESS],
-                ],
+                'options' => $customerTypeOptions,
             ]
         ]);
 
