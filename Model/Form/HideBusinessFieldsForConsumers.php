@@ -44,11 +44,10 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
         $customerTypeField = $form->getField(AddCustomerTypeRadioButtons::FIELD_NAME);
         if ($customerTypeField->getValue() === AddCustomerTypeRadioButtons::TYPE_CONSUMER) {
             $this->hideFields($form);
+            return;
         }
 
-        if ($customerTypeField->getValue() === AddCustomerTypeRadioButtons::TYPE_BUSINESS) {
-            $this->showFields($form);
-        }
+        $this->showFields($form);
     }
 
     private function hideFields(EntityFormInterface $form): void
