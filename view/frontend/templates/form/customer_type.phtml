@@ -48,7 +48,7 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
                                     <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
                                 <?php endif ?>
                         />
-                        <span><?= $escaper->escapeHtml($option['label']) ?></span>
+                        <span><?= $escaper->escapeHtml(__($option['label'])) ?></span>
                     </label>
                 </div>
             <?php endforeach; ?>
