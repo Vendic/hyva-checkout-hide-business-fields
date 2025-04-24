@@ -55,6 +55,8 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
         /** @var Input $select */
         $select = $form->getField(self::FIELD_NAME);
         $select->setAttribute('wire:model', sprintf('address.%s', self::FIELD_NAME));
+        $select->removeAttribute('wire:model.defer');
+        $select->removeAttribute('wire:auto-save');
     }
 
     public function saveSelectField(EntityFormInterface $form): void
