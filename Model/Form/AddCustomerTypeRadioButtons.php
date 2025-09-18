@@ -9,6 +9,7 @@ use Hyva\Checkout\Model\Form\EntityField\Input;
 use Hyva\Checkout\Model\Form\EntityFormInterface;
 use Hyva\Checkout\Model\Form\EntityFormModifierInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Vendic\HyvaCheckoutHideBusinessFields\Model\Config;
 
 class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 {
@@ -23,12 +24,17 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
 
     public function __construct(
         private CheckoutSession $checkoutSession,
+        private Config $config,
         private array $customCustomerTypeOptions = []
     ) {
     }
 
     public function apply(EntityFormInterface $form): EntityFormInterface
     {
+        if (!$this->config->isEnabled()) {
+            return $form;
+        }
+        
         $form->registerModificationListener(
             'addSelect',
             'form:init',

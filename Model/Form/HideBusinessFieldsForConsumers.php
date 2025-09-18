@@ -7,16 +7,22 @@ namespace Vendic\HyvaCheckoutHideBusinessFields\Model\Form;
 
 use Hyva\Checkout\Model\Form\EntityFormInterface;
 use Hyva\Checkout\Model\Form\EntityFormModifierInterface;
+use Vendic\HyvaCheckoutHideBusinessFields\Model\Config;
 
 class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
 {
-    public function __construct(private array $businessFields)
-    {
+    public function __construct(
+        private Config $config,
+        private array $businessFields
+    ) {
     }
-
 
     public function apply(EntityFormInterface $form): EntityFormInterface
     {
+        if (!$this->config->isEnabled()) {
+            return $form;
+        }
+        
         // Initial state
         $form->registerModificationListener(
             'hideBusinessFieldsInitially',
