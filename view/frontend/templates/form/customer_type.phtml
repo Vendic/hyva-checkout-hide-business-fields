@@ -23,6 +23,7 @@ use Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons
 
 $element = $block->getData('element');
 $showLabel = (bool) $block->getData('show_label');
+$hasRelatives = $element->hasRelatives();
 $customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadioButtons::TYPE_CONSUMER;
 ?>
 <div class="block <?= $element->isRequired() ? 'required' : 'not-required' ?>">
@@ -31,7 +32,7 @@ $customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadio
     <?php endif; ?>
     <?= /* @noEscape */ $element->getRenderer()->renderBefore($element) ?>
 
-    <?php if ($element->hasRelatives()): ?>
+    <?php if ($hasRelatives): ?>
         <div class="space-y-2">
     <?php endif; ?>
 
@@ -56,13 +57,13 @@ $customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadio
             <?php endforeach; ?>
         </div>
 
-        <?php if ($element->hasRelatives()): ?>
+        <?php if ($hasRelatives): ?>
             <?php foreach ($element->getRelatives() as $relative): ?>
                 <?= /* @noEscape */ $relative->render() ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
-    <?php if ($element->hasRelatives()): ?>
+    <?php if ($hasRelatives): ?>
         </div>
     <?php endif; ?>
 
