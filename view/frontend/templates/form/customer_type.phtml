@@ -48,7 +48,7 @@ $customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadio
                         <input
                             type="radio"
                             class="hidden"
-                            value="<?= $escaper->escapeHtml($option['value']) ?>"
+                            value="<?= $escaper->escapeHtmlAttr($option['value']) ?>"
                             <?php if ($element->hasAttributes()): ?>
                                 <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
                             <?php endif; ?>
