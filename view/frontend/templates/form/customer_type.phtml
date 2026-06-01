@@ -33,8 +33,8 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
     <?= /* @noEscape */ $element->getRenderer()->renderBefore($element) ?>
 
     <?php if ($element->hasRelatives()): ?>
-    <div class="space-y-2">
-        <?php endif ?>
+        <div class="space-y-2">
+    <?php endif; ?>
 
         <div class="flex flex-wrap gap-2">
             <?php foreach ($element->getOptions() as $option): ?>
@@ -46,7 +46,7 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
                                value="<?= $escaper->escapeHtml($option['value']) ?>"
                                 <?php if ($element->hasAttributes()): ?>
                                     <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
-                                <?php endif ?>
+                                <?php endif; ?>
                         />
                         <span><?= $escaper->escapeHtml(__($option['label'])) ?></span>
                     </label>
@@ -57,12 +57,12 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
         <?php if ($element->hasRelatives()): ?>
             <?php foreach ($element->getRelatives() as $relative): ?>
                 <?= /* @noEscape */ $relative->render() ?>
-            <?php endforeach ?>
-        <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-        <?php if ($element->hasRelatives()): ?>
-    </div>
-<?php endif ?>
+    <?php if ($element->hasRelatives()): ?>
+        </div>
+    <?php endif; ?>
 
     <?= /* @noEscape */ $element->getRenderer()->renderAfter($element) ?>
 </div>
