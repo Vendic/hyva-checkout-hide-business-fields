@@ -39,14 +39,19 @@ $customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadio
         <div class="flex flex-wrap gap-2">
             <?php foreach ($element->getOptions() as $option): ?>
                 <div>
-                    <label class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold
-                                  <?= ($customerType === $option['value']) ? 'border-blue-600 text-blue-600 checked' : 'border-secondary text-secondary' ?>">
-                        <input type="radio"
-                               class="hidden"
-                               value="<?= $escaper->escapeHtml($option['value']) ?>"
-                                <?php if ($element->hasAttributes()): ?>
-                                    <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
-                                <?php endif; ?>
+                    <label
+                        class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold
+                               <?= ($customerType === $option['value'])
+                                   ? 'border-blue-600 text-blue-600 checked'
+                                   : 'border-secondary text-secondary' ?>"
+                    >
+                        <input
+                            type="radio"
+                            class="hidden"
+                            value="<?= $escaper->escapeHtml($option['value']) ?>"
+                            <?php if ($element->hasAttributes()): ?>
+                                <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
+                            <?php endif; ?>
                         />
                         <span><?= $escaper->escapeHtml(__($option['label'])) ?></span>
                     </label>
