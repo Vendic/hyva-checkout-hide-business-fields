@@ -22,7 +22,7 @@ use Magewirephp\Magewire\Component\Form as MagewireFormComponent;
 use Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons;
 
 $element = $block->getData('element');
-$showLabel = $block->getData('show_label') ?: false;
+$showLabel = (bool) $block->getData('show_label');
 $attributes = $element->getAttributes();
 $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type'] : AddCustomerTypeRadioButtons::TYPE_CONSUMER;
 ?>
