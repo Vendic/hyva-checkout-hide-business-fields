@@ -10,21 +10,19 @@ declare(strict_types=1);
 
 /** @var Template $block */
 /** @var EntityFieldSelectInterface $element */
-/** @var ViewModelRegistry $viewModels */
 /** @var Escaper $escaper */
 /** @var MagewireFormComponent $magewire */
 
 use Hyva\Checkout\Model\Form\EntityFieldSelectInterface;
-use Hyva\Theme\Model\ViewModelRegistry;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Magewirephp\Magewire\Component\Form as MagewireFormComponent;
 use Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons;
 
 $element = $block->getData('element');
-$showLabel = $block->getData('show_label') ?: false;
-$attributes = $element->getAttributes();
-$customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type'] : AddCustomerTypeRadioButtons::TYPE_CONSUMER;
+$showLabel = (bool) $block->getData('show_label');
+$hasRelatives = $element->hasRelatives();
+$customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadioButtons::TYPE_CONSUMER;
 ?>
 <div class="block <?= $element->isRequired() ? 'required' : 'not-required' ?>">
     <?php if ($showLabel): ?>
@@ -32,21 +30,24 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
     <?php endif; ?>
     <?= /* @noEscape */ $element->getRenderer()->renderBefore($element) ?>
 
-    <?php if ($element->hasRelatives()): ?>
-    <div class="space-y-2">
-        <?php endif ?>
+    <?php if ($hasRelatives): ?>
+        <div class="space-y-2">
+    <?php endif; ?>
 
         <div class="flex flex-wrap gap-2">
             <?php foreach ($element->getOptions() as $option): ?>
+                <?php $labelClass = ($customerType === $option['value'])
+                    ? 'border-blue-600 text-blue-600 checked'
+                    : 'border-secondary text-secondary'; ?>
                 <div>
-                    <label class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold
-                                  <?= ($customerType === $option['value']) ? 'border-blue-600 text-blue-600 checked' : 'border-secondary text-secondary' ?>">
-                        <input type="radio"
-                               class="hidden"
-                               value="<?= $escaper->escapeHtml($option['value']) ?>"
-                                <?php if ($element->hasAttributes()): ?>
-                                    <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
-                                <?php endif ?>
+                    <label class="p-2 bg-white border rounded-lg cursor-pointer text-sm font-bold <?= $labelClass ?>">
+                        <input
+                            type="radio"
+                            class="hidden"
+                            value="<?= $escaper->escapeHtmlAttr($option['value']) ?>"
+                            <?php if ($element->hasAttributes()): ?>
+                                <?= /* @noEscape */ $element->renderAttributes($escaper) ?>
+                            <?php endif; ?>
                         />
                         <span><?= $escaper->escapeHtml(__($option['label'])) ?></span>
                     </label>
@@ -54,15 +55,15 @@ $customerType = $magewire->getAddress() ? $magewire->getAddress()['customer_type
             <?php endforeach; ?>
         </div>
 
-        <?php if ($element->hasRelatives()): ?>
+        <?php if ($hasRelatives): ?>
             <?php foreach ($element->getRelatives() as $relative): ?>
                 <?= /* @noEscape */ $relative->render() ?>
-            <?php endforeach ?>
-        <?php endif ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-        <?php if ($element->hasRelatives()): ?>
-    </div>
-<?php endif ?>
+    <?php if ($hasRelatives): ?>
+        </div>
+    <?php endif; ?>
 
     <?= /* @noEscape */ $element->getRenderer()->renderAfter($element) ?>
 </div>
