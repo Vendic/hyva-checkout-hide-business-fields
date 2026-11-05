@@ -22,7 +22,10 @@ use Vendic\HyvaCheckoutHideBusinessFields\Model\Form\AddCustomerTypeRadioButtons
 $element = $block->getData('element');
 $showLabel = (bool) $block->getData('show_label');
 $hasRelatives = $element->hasRelatives();
-$customerType = $magewire->getAddress()['customer_type'] ?? AddCustomerTypeRadioButtons::TYPE_CONSUMER;
+// The field value decides which business fields are shown, so the selected option follows it too.
+$customerType = $element->getValue()
+    ?: ($magewire->getAddress()['customer_type'] ?? null)
+    ?: AddCustomerTypeRadioButtons::TYPE_CONSUMER;
 ?>
 <div class="block <?= $element->isRequired() ? 'required' : 'not-required' ?>">
     <?php if ($showLabel): ?>
