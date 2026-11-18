@@ -47,6 +47,13 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
             [$this, 'saveSelectField']
         );
 
+        // The new address modal resets the form, which empties the customer type: preselect it again.
+        $form->registerModificationListener(
+            'resetSelectOnCreate',
+            'form:action:create',
+            [$this, 'resetSelectOnCreate']
+        );
+
         $form->registerModificationListener(
             'addWireModel',
             'form:build:magewire',
@@ -77,6 +84,13 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
         if ($select->getValue() !== $previousValue) {
             $this->setCustomerTypeInSession($form, $select->getValue());
         }
+    }
+
+    public function resetSelectOnCreate(EntityFormInterface $form): void
+    {
+        $form->getField(self::FIELD_NAME)?->setValue(
+            $this->getCustomerTypeFromSession($form) ?? self::TYPE_CONSUMER
+        );
     }
 
     public function addInitialSelectField(EntityFormInterface $form): void
