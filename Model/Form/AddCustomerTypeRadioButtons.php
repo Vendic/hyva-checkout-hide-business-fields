@@ -60,7 +60,10 @@ class AddCustomerTypeRadioButtons implements EntityFormModifierInterface
     {
         /** @var Input $select */
         $select = $form->getField(self::FIELD_NAME);
-        $select->setAttribute('wire:model', sprintf('address.%s', self::FIELD_NAME));
+        // Live: switching the customer type must reach the server right away to show or hide the business fields.
+        // Hyvä Checkout 3 defers a plain wire:model in its address forms; Magewire 1 ignores the modifier.
+        $select->removeAttribute('wire:model');
+        $select->setAttribute('wire:model.live', sprintf('address.%s', self::FIELD_NAME));
         $select->removeAttribute('wire:model.defer');
         $select->removeAttribute('wire:auto-save');
     }
