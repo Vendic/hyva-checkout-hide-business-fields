@@ -37,6 +37,15 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
             [$this, 'applyHideBusinessFieldsForConsumers']
         );
 
+        // Is triggered before rendering, after the form was filled with the address. The initial state
+        // comes from the customer type in the checkout session, which can differ from the address that
+        // is shown (e.g. a guest chose "business" and then logged in): follow the field value instead.
+        $form->registerModificationListener(
+            'hideBusinessFieldsOnBuild',
+            'form:build:magewire',
+            [$this, 'applyHideBusinessFieldsForSelectedCustomerType']
+        );
+
         return $form;
     }
 
@@ -45,9 +54,30 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
         $this->hideFields($form);
     }
 
+    public function applyHideBusinessFieldsForSelectedCustomerType(EntityFormInterface $form) : void
+    {
+        $customerTypeField = $form->getField(AddCustomerTypeRadioButtons::FIELD_NAME);
+        if ($customerTypeField === null) {
+            return;
+        }
+
+        // An address without a customer type (e.g. a new address) is shown as a consumer by the
+        // customer_type template, so hide the business fields for it as well.
+        if (in_array($customerTypeField->getValue(), [null, ''], true)) {
+            $this->hideFields($form);
+            return;
+        }
+
+        $this->applyHideBusinessFieldsForConsumers($form);
+    }
+
     public function applyHideBusinessFieldsForConsumers(EntityFormInterface $form) : void
     {
         $customerTypeField = $form->getField(AddCustomerTypeRadioButtons::FIELD_NAME);
+        if ($customerTypeField === null) {
+            return;
+        }
+
         if ($customerTypeField->getValue() === AddCustomerTypeRadioButtons::TYPE_CONSUMER) {
             $this->hideFields($form);
             return;
