@@ -37,6 +37,13 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
             [$this, 'applyHideBusinessFieldsForConsumers']
         );
 
+        // Only on switching, not on load: a saved business address must keep its company.
+        $form->registerModificationListener(
+            'clearBusinessFieldsForConsumers',
+            sprintf('form:%s:updated', AddCustomerTypeRadioButtons::FIELD_NAME),
+            [$this, 'clearBusinessFieldsForConsumers']
+        );
+
         // Is triggered before rendering, after the form was filled with the address. The initial state
         // comes from the customer type in the checkout session, which can differ from the address that
         // is shown (e.g. a guest chose "business" and then logged in): follow the field value instead.
@@ -84,6 +91,18 @@ class HideBusinessFieldsForConsumers implements EntityFormModifierInterface
         }
 
         $this->showFields($form);
+    }
+
+    public function clearBusinessFieldsForConsumers(EntityFormInterface $form): void
+    {
+        $customerTypeField = $form->getField(AddCustomerTypeRadioButtons::FIELD_NAME);
+        if ($customerTypeField?->getValue() !== AddCustomerTypeRadioButtons::TYPE_CONSUMER) {
+            return;
+        }
+
+        foreach ($this->businessFields as $fieldName) {
+            $form->getField($fieldName)?->setValue('');
+        }
     }
 
     private function hideFields(EntityFormInterface $form): void
