@@ -1,5 +1,5 @@
 # Vendic_HyvaCheckoutHideBusinessFields
-This module adds a customer type field to the checkout and hides the business fields when the customer type is set to "consumer". Business fields can be configered via di.xml:
+This module adds a customer type field to the checkout and hides the business fields when the customer type is set to "consumer". When the customer switches to "consumer", the business fields are also emptied, so a company name or VAT number typed in before is not saved on the address. Business fields can be configered via di.xml:
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
